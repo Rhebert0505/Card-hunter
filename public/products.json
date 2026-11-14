@@ -1,0 +1,242 @@
+[
+  {
+    "game": "Pokémon",
+    "set": "30th Celebration",
+    "product": "30th Celebration booster",
+    "rating": "YELLOW",
+    "chase": "Mew ex",
+    "number": "152 SIR",
+    "raw": 61.98,
+    "max": null
+  },
+  {
+    "game": "Pokémon",
+    "set": "Pitch Black",
+    "product": "Pitch Black booster",
+    "rating": "GREEN",
+    "chase": "Mega Darkrai ex",
+    "number": "116 SIR",
+    "raw": 136.62,
+    "max": null
+  },
+  {
+    "game": "Pokémon",
+    "set": "Chaos Rising",
+    "product": "Chaos Rising booster",
+    "rating": "GREEN",
+    "chase": "Mega Greninja ex",
+    "number": "122 Mega Hyper Rare",
+    "raw": 109.1,
+    "max": null
+  },
+  {
+    "game": "Pokémon",
+    "set": "Perfect Order",
+    "product": "Perfect Order booster",
+    "rating": "YELLOW",
+    "chase": "Mega Zygarde ex",
+    "number": "124 Mega Hyper Rare",
+    "raw": 81.91,
+    "max": null
+  },
+  {
+    "game": "Pokémon",
+    "set": "Ascended Heroes",
+    "product": "Ascended Heroes booster",
+    "rating": "GREEN",
+    "chase": "Mega Gengar ex",
+    "number": "284 SIR",
+    "raw": 593.66,
+    "max": null
+  },
+  {
+    "game": "Pokémon",
+    "set": "Phantasmal Flames",
+    "product": "Phantasmal Flames booster",
+    "rating": "GREEN",
+    "chase": "Mega Charizard X ex",
+    "number": "125 SIR",
+    "raw": 554.2,
+    "max": null
+  },
+  {
+    "game": "Pokémon",
+    "set": "White Flare",
+    "product": "White Flare booster",
+    "rating": "GREEN",
+    "chase": "Victini",
+    "number": "172 Black White Rare",
+    "raw": 528.34,
+    "max": null
+  },
+  {
+    "game": "Pokémon",
+    "set": "Delta Reign",
+    "product": "Delta Reign booster",
+    "rating": "GREEN",
+    "chase": "Mega Rayquaza ex",
+    "number": "138/103 SIR",
+    "raw": 293.16,
+    "max": 5.5
+  },
+  {
+    "game": "One Piece",
+    "set": "EB-05 Heroine's Edition Vol. 2",
+    "product": "EB-05 booster",
+    "rating": "GREEN",
+    "chase": "Nami",
+    "number": "EB05-055 (variant unverified)",
+    "raw": 1554.41,
+    "max": 4.99
+  },
+  {
+    "game": "One Piece",
+    "set": "OP-17 World's Strongest Warriors",
+    "product": "OP-17 booster",
+    "rating": "GREEN",
+    "chase": "Monkey.D.Luffy",
+    "number": "OP17-079",
+    "raw": 1776.47,
+    "max": null
+  },
+  {
+    "game": "One Piece",
+    "set": "OP-16 The Time of Battle",
+    "product": "OP-16 booster",
+    "rating": "GREEN",
+    "chase": "Kuzan",
+    "number": "OP16-063",
+    "raw": 1114.45,
+    "max": null
+  },
+  {
+    "game": "One Piece",
+    "set": "OP-15 Adventure on Kami's Island",
+    "product": "OP-15 booster",
+    "rating": "GREEN",
+    "chase": "Enel",
+    "number": "OP15-118",
+    "raw": 1032.45,
+    "max": null
+  },
+  {
+    "game": "One Piece",
+    "set": "OP-18 The Dominance of God",
+    "product": "OP-18 booster",
+    "rating": "RESEARCH",
+    "chase": "Upcoming - chase TBD",
+    "number": "",
+    "raw": null,
+    "max": null
+  },
+  {
+    "game": "Lorcana",
+    "set": "Hyperia City",
+    "product": "Hyperia City booster",
+    "rating": "RESEARCH",
+    "chase": "Chase pending verification",
+    "number": "",
+    "raw": null,
+    "max": null
+  },
+  {
+    "game": "Lorcana",
+    "set": "Attack of the Vine!",
+    "product": "Attack of the Vine booster",
+    "rating": "GREEN",
+    "chase": "Belle & Beast - Certain as the Sun",
+    "number": "",
+    "raw": 1554.22,
+    "max": null
+  },
+  {
+    "game": "Lorcana",
+    "set": "Wilds Unknown",
+    "product": "Wilds Unknown booster",
+    "rating": "YELLOW",
+    "chase": "Syndrome - Out for Revenge",
+    "number": "",
+    "raw": 63.85,
+    "max": null
+  },
+  {
+    "game": "Lorcana",
+    "set": "Winterspell",
+    "product": "Winterspell booster",
+    "rating": "GREEN",
+    "chase": "Tod - Knows All the Tricks",
+    "number": "",
+    "raw": 135.76,
+    "max": null
+  },
+  {
+    "game": "Magic",
+    "set": "Lorwyn Eclipsed",
+    "product": "Collector Booster — single 15-card pack",
+    "rating": "GREEN",
+    "chase": "Bloom Tender",
+    "number": "#0400",
+    "raw": 485.71,
+    "max": 30.0
+  },
+  {
+    "game": "Magic",
+    "set": "Star Trek",
+    "product": "Star Trek collector booster",
+    "rating": "RESEARCH",
+    "chase": "Chase under review",
+    "number": "",
+    "raw": null,
+    "max": null
+  },
+  {
+    "game": "Magic",
+    "set": "Secret Lair Drop Series",
+    "product": "Secret Lair drop; not a booster",
+    "rating": "GREEN",
+    "chase": "Mana Vault",
+    "number": "#796",
+    "raw": 4500,
+    "max": null
+  },
+  {
+    "game": "Sports Cards",
+    "set": "2026 Topps Cosmic Chrome Baseball",
+    "product": "Hobby box",
+    "rating": "RESEARCH",
+    "chase": "Rookie autograph / parallel",
+    "number": "",
+    "raw": null,
+    "max": null
+  },
+  {
+    "game": "Sports Cards",
+    "set": "2026 Topps Flagship Basketball",
+    "product": "Hobby box",
+    "rating": "RESEARCH",
+    "chase": "Rookie autograph / parallel",
+    "number": "",
+    "raw": null,
+    "max": null
+  },
+  {
+    "game": "Sports Cards",
+    "set": "2026 Topps Inception Football",
+    "product": "Hobby box",
+    "rating": "RESEARCH",
+    "chase": "Rookie patch autograph",
+    "number": "",
+    "raw": null,
+    "max": null
+  },
+  {
+    "game": "Sports Cards",
+    "set": "2026 Topps Chrome Football",
+    "product": "Hobby box",
+    "rating": "RESEARCH",
+    "chase": "Upcoming release",
+    "number": "",
+    "raw": null,
+    "max": null
+  }
+]
