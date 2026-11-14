@@ -28,3 +28,5 @@ After the secrets are saved, push a commit to main. Confirm that a workflow run 
 The unchanged files in public/ are from the Card Hunter v2 export. Product data is a snapshot, not live synchronized. The Worker name in wrangler.jsonc must remain summer-glitter-5d84.
 
 Do not modify TIFMAS.
+
+Deployment runs are serialized so pushes cannot deploy simultaneously. The checkout and Cloudflare actions are pinned to reviewed commits.
