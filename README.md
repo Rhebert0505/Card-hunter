@@ -23,3 +23,5 @@ The daily Google Sheet research task is independent; this app has its own real s
 `node --check public/app.js`
 
 Preview: `python -m http.server 8000 --directory public`
+
+Initial end-to-end verification (2026-11-14): the unattended refresh imported 8,008 entries across 786 sets with zero source errors, committed the snapshot as `66dd3a3fd9f3b2222a429c1404dc29727ccaecc0`, and deployed it to the existing Worker. Workflow run: https://github.com/Rhebert0505/Card-hunter/actions/runs/43564213961 . The live page showed the same source date and entry count. Browser checks verified exact-package selection, two-item price math, unmatched-product fallback, save/reload/recheck, and removal of the test find.
