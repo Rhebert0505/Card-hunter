@@ -33,8 +33,7 @@ function populateChaseSets(){
    const button=document.createElement('button');button.className='control';button.type='button';button.style.cssText='text-align:left;margin:0 0 8px;padding:12px;cursor:pointer';
    button.innerHTML='<strong>#'+(i+1)+' · '+esc(set.name)+'</strong><div class="small">'+esc(set.pack.name)+' · Market reference '+fmt(set.pack.market)+' · View chase cards →</div>';
    button.onclick=()=>{select.value=set.name;$('#chaseSearch').value='';renderChases();$('#chaseCount').scrollIntoView({behavior:'smooth',block:'start'});};
-   const link=document.createElement('a');link.className='small';link.style.cssText='display:inline-block;margin:0 0 16px 12px';link.href=set.pack.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Check current sellers and price ↗';
-   list.append(button,link);
+   list.append(button);
   }
   if(!rankedSets.length)list.innerHTML='<p class="small">No reviewed booster picks have fresh market prices for this game. Choose Show all sets and research the exact pack before buying.</p>';
  }
