@@ -16,18 +16,32 @@ function render(){if(!chosen)return;$('#productName').textContent=chosen.name;$(
 function choose(id){chosen=DATA.find(p=>p.id===id);$('#price').value='';$('#picker').classList.add('hidden');render();showView('check');}
 function card(p,onChoose){let b=document.createElement('button');b.type='button';b.className='panel listItem';b.innerHTML='<span class="tag">'+esc(p.game)+' · '+esc(p.kind==='sealed'?'Sealed product':'Card')+'</span><h3>'+esc(p.name)+'</h3><div class="small">'+esc(p.set)+(p.number?' · '+esc(p.number):'')+'</div><div class="listBottom"><span>'+esc(p.variant)+'</span><strong>'+fmt(p.market)+'</strong></div>';b.addEventListener('click',()=>onChoose(p.id));return b;}
 function fillList(target,query,game,kind,callback){let list=$(target),results=FindUtils.search(DATA,query,game,kind);list.replaceChildren();results.slice(0,50).forEach(p=>list.append(card(p,callback)));let note=document.createElement('p');note.className='small';note.textContent=results.length?results.length+' matches'+(results.length>50?' · Showing 50. Add a set name, card number or package type to narrow your search.':''):'No exact match found. Try fewer words or another spelling. Unsupported items need research.';list.prepend(note);}
-let chaseLimit=50;
+let chaseLimit=50,topSetsMode=false,rankedSets=[];
 function populateChaseSets(){
  const select=$('#chaseSet'),previous=select.value,game=$('#chaseGame').value;
- const sets=[...new Set(DATA.filter(p=>p.kind==='card'&&(!game||p.game===game)).map(p=>p.set))].sort((a,b)=>a.localeCompare(b));
- select.replaceChildren(new Option('All sets',''));
- for(const name of sets)select.append(new Option(name,name));
- select.value=sets.includes(previous)?previous:'';select.disabled=!sets.length;
+ if(!game)topSetsMode=false;
+ rankedSets=ChaseRanking.topSets(DATA,game);
+ const names=topSetsMode?rankedSets.map(s=>s.name):[...new Set(DATA.filter(p=>p.kind==='card'&&(!game||p.game===game)).map(p=>p.set))].sort((a,b)=>a.localeCompare(b));
+ select.replaceChildren(new Option(topSetsMode?'All top 5 sets':'All sets',''));
+ names.forEach((name,i)=>select.append(new Option(topSetsMode?'#'+(i+1)+' · '+name:name,name)));
+ select.value=names.includes(previous)?previous:'';select.disabled=!names.length;
+ const toggle=$('#topSetsToggle');toggle.disabled=!game;toggle.textContent=topSetsMode?'Show all sets':'Top 5 Sets';toggle.setAttribute('aria-pressed',String(topSetsMode));
+ $('#topSetsPanel').classList.toggle('hidden',!topSetsMode);
+ const list=$('#topSetList');list.replaceChildren();
+ if(topSetsMode){
+  for(const [i,set] of rankedSets.entries()){
+   const button=document.createElement('button');button.className='control';button.type='button';button.style.cssText='text-align:left;margin:0 0 8px;padding:12px;cursor:pointer';
+   button.innerHTML='<strong>#'+(i+1)+' · '+esc(set.name)+'</strong><div class="small">Five-card total: '+fmt(set.total)+' · View cards →</div>';
+   button.onclick=()=>{select.value=set.name;$('#chaseSearch').value='';renderChases();$('#chaseCount').scrollIntoView({behavior:'smooth',block:'start'});};list.append(button);
+  }
+  if(!rankedSets.length)list.innerHTML='<p class="small">Not enough fresh prices to rank sets for this game. Each ranked set needs five distinct priced chase cards and a priced sealed product.</p>';
+ }
 }
 function renderChases(reset=true){
  if(reset)chaseLimit=50;
  const game=$('#chaseGame').value,set=$('#chaseSet').value;
- const matches=FindUtils.search(DATA,$('#chaseSearch').value,game,'card').filter(p=>!set||p.set===set).sort((a,b)=>b.market-a.market);
+ const allowed=new Set(rankedSets.map(s=>s.name));
+ const matches=FindUtils.search(DATA,$('#chaseSearch').value,game,'card').filter(p=>(!set||p.set===set)&&(!topSetsMode||allowed.has(p.set))).sort((a,b)=>b.market-a.market);
  const list=$('#chaseList');list.replaceChildren();
  matches.slice(0,chaseLimit).forEach(p=>list.append(card(p,choose)));
  $('#chaseCount').textContent=matches.length?'Showing '+Math.min(chaseLimit,matches.length)+' of '+matches.length+' cards · Highest market references first. Catalogue includes up to five chase cards per set.':'No cards match this game, set and search. Clear the search or choose another set.';
@@ -47,7 +61,7 @@ async function loadData(){
 for(const id of ['game','pickerGame','findGame'])for(const g of ['Pokémon','One Piece','Lorcana','Magic','Sports Cards','Other']){let o=document.createElement('option');o.value=g;o.textContent=g;$('#'+id).append(o);}
 $('#productPicker').onclick=()=>{$('#picker').classList.remove('hidden');pickerList();$('#pickerSearch').focus();};$('#closePicker').onclick=()=>$('#picker').classList.add('hidden');$('#picker').onclick=e=>{if(e.target.id==='picker')$('#picker').classList.add('hidden');};document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#picker').classList.add('hidden');});$('#price').oninput=render;
 for(const b of document.querySelectorAll('[data-view]'))b.onclick=()=>showView(b.dataset.view);
-$('#productSearch').oninput=lists;$('#chaseSearch').oninput=()=>renderChases();$('#chaseSet').onchange=()=>renderChases();$('#chaseGame').onchange=()=>{$('#chaseSet').value='';populateChaseSets();renderChases();};$('#chaseMore').onclick=()=>{chaseLimit+=50;renderChases(false);};$('#game').onchange=lists;$('#pickerSearch').oninput=pickerList;$('#pickerGame').onchange=pickerList;
+$('#topSetsToggle').onclick=()=>{topSetsMode=!topSetsMode;$('#chaseSet').value='';$('#chaseSearch').value='';populateChaseSets();renderChases();};$('#productSearch').oninput=lists;$('#chaseSearch').oninput=()=>renderChases();$('#chaseSet').onchange=()=>renderChases();$('#chaseGame').onchange=()=>{$('#chaseSet').value='';populateChaseSets();renderChases();};$('#chaseMore').onclick=()=>{chaseLimit+=50;renderChases(false);};$('#game').onchange=lists;$('#pickerSearch').oninput=pickerList;$('#pickerGame').onchange=pickerList;
 $('#findQuery').oninput=findMatches;$('#findGame').onchange=findMatches;$('#findTotal').oninput=assess;$('#findQuantity').oninput=assess;$('#assessFind').onclick=assess;
 $('#findPhoto').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(!file.type.startsWith('image/'))throw Error('image required');const bitmap=await createImageBitmap(file);let canvas=document.createElement('canvas'),scale=Math.min(1,900/Math.max(bitmap.width,bitmap.height));canvas.width=Math.round(bitmap.width*scale);canvas.height=Math.round(bitmap.height*scale);canvas.getContext('2d').drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close();photo=canvas.toDataURL('image/jpeg',.7);$('#photoPreview').src=photo;$('#photoPreview').classList.remove('hidden');$('#saveNote').textContent='Photo attached locally. Enter the product name above; photo identification is not automatic.';}catch{$('#saveNote').textContent='Photo could not load. Try a JPEG or enter the product name.';}};
 $('#saveFind').onclick=()=>{let name=findProduct?.name||$('#findQuery').value.trim();const r=assess();if(!name||r.state==='invalid'){$('#saveNote').textContent='Enter a product name, total price and quantity first.';return;}const f={name,game:findProduct?.game||$('#findGame').value,productId:findProduct?.id||null,total:$('#findTotal').value,quantity:$('#findQuantity').value,store:$('#findStore').value.trim(),photo,savedAt:new Date().toISOString()};saved.unshift(f);try{persist();$('#saveNote').textContent='Find saved on this device.';renderSaved();}catch{saved.shift();$('#saveNote').textContent='Device storage is full or unavailable. Remove older finds or try a smaller photo.';}};
