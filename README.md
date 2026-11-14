@@ -19,7 +19,11 @@ Enter credentials directly into GitHub's secret fields. Do not commit token valu
 
 ### Status and verification
 
-The workflow has been committed. Successful Cloudflare deployment is NOT yet verified; the workflow requires the two account secrets above.
+Verified automatic production deployment: push-triggered run [43561363848](https://github.com/Rhebert0505/Card-hunter/actions/runs/43561363848) successfully deployed commit `8ec9e9f5f80fdb8d2c220a701bf256ab1bc6f282` to the existing Worker.
+
+Live site: https://summer-glitter-5d84.roberthebert.workers.dev/
+
+The deployment token is scoped to `summer-glitter-5d84` only. TIFMAS is excluded.
 
 After the secrets are saved, push a commit to main. Confirm that a workflow run starts automatically for that exact commit, completes successfully, and the existing Card Hunter address serves the application. Record the URL from the deployment output. This updates the existing Worker rather than creating a new site.
 
