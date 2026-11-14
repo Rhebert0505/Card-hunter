@@ -10,13 +10,13 @@ test('phone searches accept unaccented game names',()=>{assert.equal(search([pac
 const {shoppingSets}=require('../public/chase-ranking.js');
 const pick=(game,set,id,market=10,date=pack.date)=>({id:id+':Normal',name:set+' Booster Pack',set,game,kind:'sealed',market,date,url:'https://www.tcgplayer.com/product/'+id});
 test('shopping list uses reviewed exact packs and order, not the highest card total',()=>{
- const rows=[pick('Magic','Lorwyn Eclipsed','656318',42),pick('Magic','Avatar: The Last Airbender','648646',44),pick('Magic','The Hobbit','692962',50),{...pick('Magic','Judge Promos','777777',100),kind:'card'}];
- assert.deepEqual(shoppingSets(rows,'Magic',now).map(x=>x.name),['Lorwyn Eclipsed','Avatar: The Last Airbender','The Hobbit']);
+ const rows=[pick('Magic','Lorwyn Eclipsed','656318',42),pick('Magic','Reality Fracture','692982',35),pick('Magic','The Hobbit','692962',50),{...pick('Magic','Judge Promos','777777',100),kind:'card'}];
+ assert.deepEqual(shoppingSets(rows,'Magic',now).map(x=>x.name),['Lorwyn Eclipsed','Reality Fracture','The Hobbit']);
  assert.equal(shoppingSets(rows,'Magic',now)[0].pack.market,42);
  assert.deepEqual(shoppingSets(rows,'Lorcana',now),[]);
 });
 test('shopping list hides stale, missing, mismatched, and future product references',()=>{
- const rows=[pick('Pokémon','ME: 30th Celebration','696613',10,'2026-11-10'),pick('Pokémon','ME06: Delta Reign','712099',6),pick('Pokémon','Wrong set','692944',5)];
- assert.deepEqual(shoppingSets(rows,'Pokémon',now).map(x=>x.name),['ME06: Delta Reign']);
+ const rows=[pick('Pokémon','ME06: Delta Reign','712099',10,'2026-11-10'),pick('Pokémon','ME05: Pitch Black','692944',6),pick('Pokémon','Wrong set','684446',5)];
+ assert.deepEqual(shoppingSets(rows,'Pokémon',now).map(x=>x.name),['ME05: Pitch Black']);
  assert.deepEqual(shoppingSets(rows,'Pokémon',Date.parse('2026-10-01T12:00:00Z')),[]);
 });

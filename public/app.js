@@ -22,16 +22,16 @@ function populateChaseSets(){
  if(!game)topSetsMode=false;
  rankedSets=ChaseRanking.shoppingSets(DATA,game);
  const names=topSetsMode?rankedSets.map(s=>s.name):[...new Set(DATA.filter(p=>p.kind==='card'&&(!game||p.game===game)).map(p=>p.set))].sort((a,b)=>a.localeCompare(b));
- select.replaceChildren(new Option(topSetsMode?'All top 5 sets':'All sets',''));
- names.forEach((name,i)=>select.append(new Option(topSetsMode?'#'+(i+1)+' · '+name:name,name)));
+ select.replaceChildren(new Option(topSetsMode?'All reviewed sets':'All sets',''));
+ names.forEach(name=>select.append(new Option(name,name)));
  select.value=names.includes(previous)?previous:'';select.disabled=!names.length;
- const toggle=$('#topSetsToggle');toggle.disabled=!game;toggle.textContent=topSetsMode?'Show all sets':'Top 5 shopping picks';toggle.setAttribute('aria-pressed',String(topSetsMode));
+ const toggle=$('#topSetsToggle');toggle.disabled=!game;toggle.textContent=topSetsMode?'Show all sets':'5 reviewed chase packs';toggle.setAttribute('aria-pressed',String(topSetsMode));
  $('#topSetsPanel').classList.toggle('hidden',!topSetsMode);
  const list=$('#topSetList');list.replaceChildren();
  if(topSetsMode){
-  for(const [i,set] of rankedSets.entries()){
+  for(const set of rankedSets){
    const button=document.createElement('button');button.className='control';button.type='button';button.style.cssText='text-align:left;margin:0 0 8px;padding:12px;cursor:pointer';
-   button.innerHTML='<strong>#'+(i+1)+' · '+esc(set.name)+'</strong><div class="small">'+esc(set.pack.name)+' · Market reference '+fmt(set.pack.market)+' · View chase cards →</div>';
+   button.innerHTML='<strong>'+esc(set.name)+'</strong><div class="small">'+esc(set.pack.name)+' · Market reference '+fmt(set.pack.market)+' · View chase cards →</div>';
    button.onclick=()=>{select.value=set.name;$('#chaseSearch').value='';renderChases();$('#chaseCount').scrollIntoView({behavior:'smooth',block:'start'});};
    list.append(button);
   }
