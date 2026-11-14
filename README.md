@@ -2,16 +2,29 @@
 
 Static Card Hunter website targeting the existing Cloudflare Worker `summer-glitter-5d84`.
 
-## Cloudflare build settings
+## Automatic deployment
 
-- Repository: `Rhebert0505/Card-hunter`
-- Production branch: `main`
-- Root: repository root
-- Build command: leave empty
-- Deploy command: `npx wrangler@4 deploy`
+`.github/workflows/deploy.yml` runs on every push to `main` and can also be started manually. It validates the Worker name and deploys only `summer-glitter-5d84` with Cloudflare's official Wrangler action.
 
-Connect the existing Worker in Settings > Builds > Connect. The Worker name in wrangler.jsonc must remain summer-glitter-5d84. Do not modify TIFMAS.
+### One-time account authorization
 
-The files in public/ are from the existing Card Hunter v2 export. Product data is a snapshot, not live synchronized.
+Create a Cloudflare API token with Workers Editor access scoped only to the existing `summer-glitter-5d84` Worker. This token should not grant access to the TIFMAS Worker or permission to create/delete Workers. Do not add route or DNS permissions for the existing workers.dev address.
 
-Automatic deployment is not yet verified. After connecting Cloudflare, push a commit to main and confirm an automatic successful production deployment for that exact commit at the existing website address.
+In this repository, open Settings > Secrets and variables > Actions and add these repository secrets:
+
+- `CLOUDFLARE_API_TOKEN`: the Cloudflare deployment token.
+- `CLOUDFLARE_ACCOUNT_ID`: the account ID containing `summer-glitter-5d84`.
+
+Enter credentials directly into GitHub's secret fields. Do not commit token values or paste them into chat.
+
+### Status and verification
+
+The workflow has been committed. Successful Cloudflare deployment is NOT yet verified; the workflow requires the two account secrets above.
+
+After the secrets are saved, push a commit to main. Confirm that a workflow run starts automatically for that exact commit, completes successfully, and the existing Card Hunter address serves the application. Record the URL from the deployment output. This updates the existing Worker rather than creating a new site.
+
+## Application
+
+The unchanged files in public/ are from the Card Hunter v2 export. Product data is a snapshot, not live synchronized. The Worker name in wrangler.jsonc must remain summer-glitter-5d84.
+
+Do not modify TIFMAS.
