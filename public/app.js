@@ -25,7 +25,7 @@ function populateChaseSets(){
  select.replaceChildren(new Option(topSetsMode?'All top 5 sets':'All sets',''));
  names.forEach((name,i)=>select.append(new Option(topSetsMode?'#'+(i+1)+' · '+name:name,name)));
  select.value=names.includes(previous)?previous:'';select.disabled=!names.length;
- const toggle=$('#topSetsToggle');toggle.disabled=!game;toggle.textContent=topSetsMode?'Show all sets':'Top 5 Sets';toggle.setAttribute('aria-pressed',String(topSetsMode));
+ const toggle=$('#topSetsToggle');toggle.disabled=!game;toggle.textContent=topSetsMode?'Show all sets':'Top 5 sets by chase value';toggle.setAttribute('aria-pressed',String(topSetsMode));
  $('#topSetsPanel').classList.toggle('hidden',!topSetsMode);
  const list=$('#topSetList');list.replaceChildren();
  if(topSetsMode){
