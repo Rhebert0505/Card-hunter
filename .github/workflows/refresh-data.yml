@@ -1,5 +1,10 @@
 name: Refresh daily Card Hunter prices
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/refresh-data.yml'
+      - 'scripts/refresh_market.py'
   schedule:
     - cron: '17 21 * * *'
   workflow_dispatch:
