@@ -31,7 +31,7 @@ function populateChaseSets(){
  if(topSetsMode){
   for(const set of rankedSets){
    const button=document.createElement('button');button.className='control';button.type='button';button.style.cssText='text-align:left;margin:0 0 8px;padding:12px;cursor:pointer';
-   button.innerHTML='<strong>'+esc(set.name)+'</strong><div class="small">'+esc(set.pack.name)+' · Market reference '+fmt(set.pack.market)+' · View chase cards →</div>';
+   button.innerHTML='<strong>'+esc(set.name)+'</strong><div class="small">'+esc(set.pack.name)+' · Market '+fmt(set.pack.market)+' · My buy limit '+fmt(set.buyCeiling)+' · View chase cards →</div>';
    button.onclick=()=>{select.value=set.name;$('#chaseSearch').value='';renderChases();$('#chaseCount').scrollIntoView({behavior:'smooth',block:'start'});};
    list.append(button);
   }
@@ -42,7 +42,7 @@ function renderChases(reset=true){
  if(reset)chaseLimit=50;
  const game=$('#chaseGame').value,set=$('#chaseSet').value;
  const allowed=new Set(rankedSets.map(s=>s.name));
- const matches=FindUtils.search(DATA,$('#chaseSearch').value,game,'card').filter(p=>(!set||p.set===set)&&(!topSetsMode||allowed.has(p.set))).sort((a,b)=>b.market-a.market);
+ const matches=FindUtils.search(DATA,$('#chaseSearch').value,game,'card').filter(p=>(!set||p.set===set)&&(!topSetsMode||(allowed.has(p.set)&&!/Serial Numbered/i.test(p.name)&&!(p.game==='Magic'&&p.set==='The Hobbit'&&p.name==='Smaug the Magnificent (Borderless)')))).sort((a,b)=>b.market-a.market);
  const list=$('#chaseList');list.replaceChildren();
  matches.slice(0,chaseLimit).forEach(p=>list.append(card(p,choose)));
  $('#chaseCount').textContent=matches.length?'Showing '+Math.min(chaseLimit,matches.length)+' of '+matches.length+' cards · Highest market references first. Catalogue includes up to five chase cards per set.':'No cards match this game, set and search. Clear the search or choose another set.';
