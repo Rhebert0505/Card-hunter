@@ -22,6 +22,7 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
+          ref: main
 
       - name: Check deployment credentials
         env:
@@ -36,6 +37,8 @@ jobs:
       - name: Verify deployment target and data
         run: |
           node --check public/app.js
+          node --test tests/find.test.cjs
+          python -m unittest discover -s tests
           node <<'NODE'
           const fs = require('node:fs');
           const config = JSON.parse(fs.readFileSync('wrangler.jsonc', 'utf8'));
@@ -43,6 +46,7 @@ jobs:
             throw new Error('Refusing deployment: unexpected Card Hunter Worker or assets directory.');
           }
           JSON.parse(fs.readFileSync('public/products.json', 'utf8'));
+          JSON.parse(fs.readFileSync('public/market-catalog.json', 'utf8'));
           JSON.parse(fs.readFileSync('public/manifest.webmanifest', 'utf8'));
           NODE
 
@@ -58,5 +62,6 @@ jobs:
         env:
           DEPLOYMENT_URL: ${{ steps.cloudflare.outputs.deployment-url }}
         run: |
-          printf 'Deployed Card Hunter commit `%s` to Worker `summer-glitter-5d84`.\n\n' "$GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+          printf 'Deployed Card Hunter commit `%s` to Worker `summer-glitter-5d84`.\n\n' "$(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
           printf 'Deployment URL: %s\n' "$DEPLOYMENT_URL" >> "$GITHUB_STEP_SUMMARY"
+

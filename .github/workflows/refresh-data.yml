@@ -1,0 +1,67 @@
+name: Refresh daily Card Hunter prices
+on:
+  schedule:
+    - cron: '17 21 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: card-hunter-production
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Check out latest main
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+      - name: Test and refresh source cache
+        id: refresh
+        continue-on-error: true
+        run: |
+          node --test tests/find.test.cjs
+          python -m unittest discover -s tests
+          python scripts/refresh_market.py
+      - name: Commit updated price snapshot
+        id: snapshot
+        run: |
+          git add public/market-catalog.json
+          if ! git diff --cached --quiet; then
+            git config user.name 'Card Hunter Data'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Refresh daily Card Hunter market prices'
+            git push origin HEAD:main
+          fi
+      # GITHUB_TOKEN commits do not trigger deploy.yml. Deploy here explicitly.
+      - name: Verify Card Hunter target
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const c=JSON.parse(fs.readFileSync('wrangler.jsonc','utf8'));
+          if(c.name!=='summer-glitter-5d84'||c.assets?.directory!=='./public')throw Error('Unexpected deployment target');
+          const d=JSON.parse(fs.readFileSync('public/market-catalog.json','utf8'));
+          if(!d.products?.length)throw Error('No market data');
+          NODE
+      - name: Deploy daily prices to existing Card Hunter Worker
+        uses: cloudflare/wrangler-action@953926a2e2182532811c01a25e53647d93bf07c0 # v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --name summer-glitter-5d84
+      - name: Record data freshness
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          d=json.load(open('public/market-catalog.json'))
+          print('Source price date:',d.get('sourceUpdatedAt'))
+          print('Entries:',len(d.get('products',[])))
+          print('Complete refresh:',d.get('complete'))
+          print('https://summer-glitter-5d84.roberthebert.workers.dev/')
+          PY
+      - name: Report a failed refresh
+        if: steps.refresh.outcome == 'failure'
+        run: |
+          echo '::error::Refresh failed. Prior dated prices were retained and deployed with an error notice.'
+          exit 1
