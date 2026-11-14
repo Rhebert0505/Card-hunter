@@ -1,22 +1,43 @@
 (function(root){
  'use strict';
- function topSets(rows,game,now=Date.now()){
-  if(!game)return [];
-  const groups=new Map();
-  const fresh=p=>{const age=now-Date.parse(p.date);return Number.isFinite(p.market)&&p.market>0&&Number.isFinite(age)&&age>=-3600000&&age<=48*3600000;};
-  for(const p of rows){
-   if(p.game!==game||!fresh(p))continue;
-   if(!groups.has(p.set))groups.set(p.set,{name:p.set,cards:new Map(),sealed:false});
-   const g=groups.get(p.set);
-   if(p.kind==='sealed'){g.sealed=true;continue;}
-   if(p.kind!=='card')continue;
-   const key=String(p.id).split(':')[0],old=g.cards.get(key);
-   if(!old||p.market>old.market)g.cards.set(key,p);
-  }
-  return [...groups.values()].filter(g=>g.sealed&&g.cards.size>=5).map(g=>{
-   const cards=[...g.cards.values()].sort((a,b)=>b.market-a.market).slice(0,5);
-   return {name:g.name,total:Math.round(cards.reduce((n,p)=>n+p.market,0)*100)/100,cards};
-  }).sort((a,b)=>b.total-a.total||a.name.localeCompare(b.name)).slice(0,5);
+ // Reviewed shopping shortlist, with exact English booster product IDs. Prices refresh
+ // with the catalog; membership and order are editorial and must be reviewed separately.
+ const PICKS={
+  'Magic':[
+   ['Lorwyn Eclipsed','656318','2026-01-23'],
+   ['Avatar: The Last Airbender','648646','2025-11-21'],
+   ['FINAL FANTASY','618892','2025-06-13'],
+   ['Tarkir: Dragonstorm','619648','2025-04-11'],
+   ['The Hobbit','692962','2026-08-14']
+  ],
+  'Pokémon':[
+   ['ME: 30th Celebration','696613','2026-09-16'],
+   ['ME06: Delta Reign','712099','2026-11-06'],
+   ['ME05: Pitch Black','692944','2026-07-17'],
+   ['ME04: Chaos Rising','684446','2026-05-22'],
+   ['ME03: Perfect Order','672398','2026-03-27']
+  ],
+  'One Piece':[
+   ["The World's Strongest Warriors",'704756','2026-08-28'],
+   ['The Time of Battle','689341','2026-06-12'],
+   ["Adventure on Kami's Island",'682056','2026-04-03'],
+   ["The Azure Sea's Seven",'666577','2026-01-16'],
+   ['Extra Booster: One Piece Heroines Edition Vol. 2','711383','2026-10-30']
+  ],
+  'Lorcana':[
+   ['Hyperia City','706241','2026-10-23'],
+   ['Attack of the Vine!','690386','2026-07-24'],
+   ['Wilds Unknown','678167','2026-05-15'],
+   ['Winterspell','664821','2026-02-20'],
+   ['Whispers in the Well','652701','2025-11-14']
+  ]
+ };
+ function shoppingSets(rows,game,now=Date.now()){
+  const products=new Map(rows.filter(p=>p.game===game&&p.kind==='sealed').map(p=>[String(p.id).split(':')[0],p]));
+  return (PICKS[game]||[]).filter(([,,released])=>Date.parse(released+'T00:00:00Z')<=now)
+   .map(([name,id,released])=>({name,released,pack:products.get(id)}))
+   .filter(x=>x.pack&&x.pack.set===x.name&&Number.isFinite(x.pack.market)&&x.pack.market>0&&
+    Number.isFinite(Date.parse(x.pack.date))&&now-Date.parse(x.pack.date)<=48*3600000&&now-Date.parse(x.pack.date)>=-3600000);
  }
- const api={topSets};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.ChaseRanking=api;
+ const api={shoppingSets};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.ChaseRanking=api;
 })(typeof window==='undefined'?globalThis:window);
