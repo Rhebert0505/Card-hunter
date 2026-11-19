@@ -6,6 +6,9 @@ const date=v=>{const d=new Date(v);return Number.isNaN(+d)?'Not available':d.toL
 
 // Announced but not yet priced: explicitly separate research entries from TCGCSV market prices.
 const RESEARCH_PRODUCTS=[
+ {id:'research-rayquaza-collection',game:'Pokémon',set:'Mega Rayquaza ex Premium Tournament Collection',groupId:'research-rayquaza-collection',kind:'sealed',name:'Mega Rayquaza ex Premium Tournament Collection',variant:'English premium collection box · 8 boosters · MSRP $49.99 · RESEARCH',market:null,date:null,url:''},
+ {id:'research-rayquaza-promo',game:'Pokémon',set:'Mega Rayquaza ex Premium Tournament Collection',groupId:'research-rayquaza-collection',kind:'card',name:'Mega Rayquaza ex — guaranteed promo',number:'Unconfirmed',variant:'Full-art promo · raw resale unverified · RESEARCH',market:null,date:null,url:''},
+
  {id:'research-flowing-fists-pack',game:'Pokémon',set:'Mega Evolution—Flowing Fists',groupId:'research-flowing-fists',kind:'sealed',name:'Flowing Fists Booster Pack (unreleased)',variant:'English single booster · RESEARCH',market:null,date:null,url:''},
  {id:'research-flowing-fists-etb',game:'Pokémon',set:'Mega Evolution—Flowing Fists',groupId:'research-flowing-fists',kind:'sealed',name:'Flowing Fists Elite Trainer Box (unreleased)',variant:'English sealed ETB · RESEARCH',market:null,date:null,url:''},
  {id:'research-flowing-fists-lucario',game:'Pokémon',set:'Mega Evolution—Flowing Fists',groupId:'research-flowing-fists',kind:'card',name:'Mega Lucario Z ex — prospective chase',number:'Unconfirmed',variant:'High-rarity variant not verified · RESEARCH',market:null,date:null,url:''},
