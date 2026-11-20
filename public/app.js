@@ -6,6 +6,12 @@ const date=v=>{const d=new Date(v);return Number.isNaN(+d)?'Not available':d.toL
 
 // Announced but not yet priced: explicitly separate research entries from TCGCSV market prices.
 const RESEARCH_PRODUCTS=[
+ {id:'research-op18-pack',game:'One Piece',set:'OP-18 The Dominance of God',groupId:'research-op18',kind:'sealed',name:'OP-18 English booster pack',number:'',variant:'Single booster · MSRP reported $4.99 · RESEARCH',market:null,date:null,url:''},
+ {id:'research-op18-robin',game:'One Piece',set:'OP-18 The Dominance of God',groupId:'research-op18',kind:'card',name:'Nico Robin — Super Alt Art',number:'',variant:'OP18-031 · raw price unverified',market:null,date:null,url:''},
+ {id:'research-op18-gunko',game:'One Piece',set:'OP-18 The Dominance of God',groupId:'research-op18',kind:'card',name:'Saint Gunko — Super Leader Alt Art',number:'',variant:'OP18-060 · raw price unverified',market:null,date:null,url:''},
+ {id:'research-op18-shamrock',game:'One Piece',set:'OP-18 The Dominance of God',groupId:'research-op18',kind:'card',name:'Saint Shamrock — alternate art',number:'',variant:'OP18-119 · raw price unverified',market:null,date:null,url:''},
+ {id:'research-op18-double',game:'One Piece',set:'OP-18 The Dominance of God',groupId:'research-op18',kind:'sealed',name:'Double Pack Set Vol.13',number:'',variant:'Two-pack product · MSRP reported $11.99 · RESEARCH',market:null,date:null,url:''},
+ {id:'research-op18-heroines',game:'One Piece',set:'ONE PIECE Heroines Gift Collection',groupId:'research-heroines-gift',kind:'sealed',name:'Gift Collection -ONE PIECE Heroines-',number:'',variant:'2 EB-05 packs and 10 promos · MSRP reported $44.99 · RESEARCH',market:null,date:null,url:''},
  {id:'research-rayquaza-collection',game:'Pokémon',set:'Mega Rayquaza ex Premium Tournament Collection',groupId:'research-rayquaza-collection',kind:'sealed',name:'Mega Rayquaza ex Premium Tournament Collection',variant:'English premium collection box · 8 boosters · MSRP $49.99 · RESEARCH',market:null,date:null,url:''},
  {id:'research-rayquaza-promo',game:'Pokémon',set:'Mega Rayquaza ex Premium Tournament Collection',groupId:'research-rayquaza-collection',kind:'card',name:'Mega Rayquaza ex — guaranteed promo',number:'Unconfirmed',variant:'Full-art promo · raw resale unverified · RESEARCH',market:null,date:null,url:''},
 
